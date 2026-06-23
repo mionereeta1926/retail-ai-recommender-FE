@@ -180,6 +180,11 @@ async function apiLogin(){
 
         currentUser=data.user_id;
 
+        localStorage.setItem(
+    "user_id",
+    data.user_id
+);
+
         document
         .getElementById("navbar")
         .classList.remove("hidden");
@@ -455,3 +460,202 @@ async function checkout(){
     }
 
 }
+
+async function apiForgot() {
+
+    const response = await fetch(
+        API + "/forgot-password",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                email: document.getElementById(
+                    "forgot-email"
+                ).value
+            })
+        }
+    );
+
+    const data = await response.json();
+
+    if(data.success){
+
+        showMessage(
+            "Reset Code: " +
+            data.reset_code
+        );
+
+        showPage("login");
+    }
+}
+
+async function loadProfile(){
+
+    const response =
+    await fetch(
+        API + "/profile/" + currentUser
+    );
+
+    const data =
+    await response.json();
+
+    if(!data.success){
+        return;
+    }
+
+    const user = data.data;
+
+    document.getElementById(
+        "profile-data"
+    ).innerHTML = `
+
+    <p>
+        <strong>Name:</strong>
+        ${user.username}
+    </p>
+
+    <p>
+        <strong>Email:</strong>
+        ${user.email}
+    </p>
+
+    <p>
+        <strong>Phone:</strong>
+        ${user.phone_number}
+    </p>
+
+    <p>
+        <strong>Status:</strong>
+        ${user.active ? "Active" : "Inactive"}
+    </p>
+
+    `;
+
+    loadInvoices();
+}
+
+async function loadInvoices(){
+
+    const response =
+    await fetch(
+        API + "/invoices/" + currentUser
+    );
+
+    const data =
+    await response.json();
+
+    let html = "";
+
+    data.data.forEach(invoice=>{
+
+        html += `
+<div class="bg-white p-3 rounded shadow">
+
+    <p>
+        Invoice #${invoice.invoice_id}
+    </p>
+
+    <p>
+        Date: ${invoice.invoice_date}
+    </p>
+
+    <p>
+        Amount: RM ${invoice.amount.toFixed(2)}
+    </p>
+
+    <p>
+        Payment: ${invoice.payment}
+    </p>
+
+</div>
+`;
+    });
+
+    document.getElementById(
+        "invoices-list"
+    ).innerHTML = html;
+}
+
+async function showCart(){
+
+    showPage("checkout");
+
+    const container =
+    document.getElementById(
+        "cart-items"
+    );
+
+    container.innerHTML = "";
+
+    let total = 0;
+
+    for(const itemId of cart){
+
+        const response =
+        await fetch(
+            API + "/items/" + itemId
+        );
+
+        const data =
+        await response.json();
+
+        const item =
+        data.data;
+
+        total += item.item_price;
+
+        container.innerHTML += `
+
+        <div class="bg-white p-3 rounded shadow">
+
+            <p class="font-bold">
+                ${item.item_name}
+            </p>
+
+            <p>
+                RM ${item.item_price}
+            </p>
+
+        </div>
+
+        `;
+    }
+
+    container.innerHTML += `
+
+    <div class="font-bold text-xl mt-4">
+
+        Total :
+        RM ${total.toFixed(2)}
+
+    </div>
+
+    `;
+}
+
+window.onload = function(){
+
+    const user =
+    localStorage.getItem(
+        "user_id"
+    );
+
+    if(user){
+
+        currentUser = user;
+
+        document
+        .getElementById("navbar")
+        .classList.remove("hidden");
+
+        loadItems();
+
+        showPage("items");
+    }
+    else{
+
+        showPage("login");
+    }
+};
