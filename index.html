@@ -1,0 +1,102 @@
+this is the basic index html for this project, provide a script to connect to api from backend. adjust index.html properly too
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<script src="script.js"></script>
+<body class="bg-gray-50 text-gray-900 font-sans">
+
+    <nav id="navbar" class="hidden bg-white p-4 shadow-sm justify-between items-center sticky top-0 z-50">
+        <h1 class="text-xl font-bold cursor-pointer" onclick="showPage('items')">MINI-STORE</h1>
+        <div class="space-x-4">
+            <button onclick="showPage('items')" class="hover:text-blue-600">Catalog</button>
+            <button onclick="showPage('profile')" class="hover:text-blue-600">Profile</button>
+            <button onclick="apiLogout()" class="text-red-600">Logout</button>
+        <button onclick="showCart()" class="hover:text-blue-600">
+    Cart (<span id="cart-count">0</span>)
+</button>
+        </div>
+    </nav>
+
+    <main id="app" class="p-6 max-w-4xl mx-auto min-h-screen">
+        <div id="page-login" class="page">
+            <h2 class="text-2xl font-bold mb-4">Login</h2>
+            <input id="login-email" type="email" placeholder="Email" class="w-full p-2 border mb-2 rounded">
+            <input id="login-pass" type="password" placeholder="Password" class="w-full p-2 border mb-4 rounded">
+            <button onclick="apiLogin()" class="w-full bg-blue-600 text-white p-2 rounded">Login</button>
+            <p class="mt-2 text-sm text-blue-600 cursor-pointer" onclick="showPage('forgot')">Forgot Password?</p>
+            <p class="mt-4">Don't have an account? <span onclick="showPage('signup')" class="text-blue-600 cursor-pointer font-bold">Signup</span></p>
+        </div>
+
+        <div id="page-signup" class="page hidden">
+            <h2 class="text-2xl font-bold mb-4">Create Account</h2>
+            <input id="signup-user" type="text" placeholder="Username" class="w-full p-2 border mb-2 rounded">
+            <input id="signup-email" type="email" placeholder="Email" class="w-full p-2 border mb-2 rounded">
+            <input id="signup-pass" type="password" placeholder="Password" class="w-full p-2 border mb-2 rounded">
+            <input id="signup-phone" type="tel" placeholder="Phone Number" class="w-full p-2 border mb-4 rounded">
+            <button onclick="apiSignup()" class="w-full bg-green-600 text-white p-2 rounded">Register</button>
+        </div>
+
+        <div id="page-verify" class="page hidden">
+            <h2 class="text-2xl font-bold mb-4">Verify Email</h2>
+            <input id="verify-code" type="text" placeholder="Verification Code" class="w-full p-2 border mb-4 rounded">
+            <button onclick="apiVerify()" class="w-full bg-green-600 text-white p-2 rounded">Verify</button>
+        </div>
+
+        <div id="page-forgot" class="page hidden">
+            <h2 class="text-2xl font-bold mb-4">Forgot Password</h2>
+            <input id="forgot-email" type="email" placeholder="Email" class="w-full p-2 border mb-4 rounded">
+            <button onclick="apiForgot()" class="w-full bg-orange-600 text-white p-2 rounded">Send Reset Code</button>
+        </div>
+
+        <div id="page-items" class="page hidden">
+            <h2 class="text-2xl font-bold mb-6">Catalog</h2>
+            <div id="items-grid" class="grid grid-cols-2 md:grid-cols-3 gap-6"></div>
+        </div>
+
+        <div id="page-detail" class="page hidden">
+            <button onclick="showPage('items')" class="mb-4 text-blue-600">&larr; Back</button>
+            <div id="detail-content"></div>
+            <h3 class="text-xl font-bold mt-8 mb-4">AI Recommendations</h3>
+            <div id="rec-grid" class="flex gap-4 overflow-x-auto"></div>
+        </div>
+
+        <div id="page-profile" class="page hidden">
+            <h2 class="text-2xl font-bold mb-4">Profile</h2>
+            <div id="profile-data" class="bg-white p-4 shadow rounded mb-6"></div>
+            <h3 class="text-xl font-bold mb-4">Invoices</h3>
+            <div id="invoices-list" class="space-y-2"></div>
+        </div>
+
+        <div id="page-checkout" class="page hidden">
+
+    <h2 class="text-2xl font-bold mb-4">
+        Checkout
+    </h2>
+
+    <div id="cart-items" class="space-y-3 mb-5">
+
+    </div>
+
+    <button
+        onclick="checkout()"
+        class="bg-green-600 text-white p-2 rounded">
+
+        Dummy Payment
+
+    </button>
+
+</div>
+    </main>
+    <div
+    id="message"
+    class="fixed bottom-5 right-5 bg-green-600 text-white px-4 py-2 rounded hidden">
+</div>
+    </body>
+    </html>
