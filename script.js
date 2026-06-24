@@ -366,7 +366,7 @@ async function loadRecommendations(id) {
     </p>
 
     <p class="text-xs text-green-600 mb-2">
-        Match ${(item.score * 100).toFixed(0)}%
+        Match ${(item.score).toFixed(0)}%
     </p>
 
     <button
@@ -412,61 +412,48 @@ function addCart(id) {
 async function checkout() {
 
     const response =
+        await fetch(API + "/checkout", {
 
-        await fetch(
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-            API + "/checkout",
+            body: JSON.stringify({
+                user_id: currentUser,
+                items: cart,
+                payment: "Dummy Payment"
+            })
 
-            {
-
-                method: "POST",
-
-                headers: {
-
-                    "Content-Type": "application/json"
-
-                },
-
-                body: JSON.stringify({
-
-                    user_id: currentUser,
-
-                    items: cart,
-
-                    payment: "Dummy Payment"
-
-                })
-
-            }
-
-        );
+        });
 
     const data =
-
         await response.json();
 
     if (data.success) {
 
         showMessage(
-
-            "Invoice #"
-
-            + data.invoice.invoice_id +
-
+            "Invoice #" +
+            data.invoice.invoice_id +
             " Created"
-
         );
 
+        // 1. Clear cart data
         cart = [];
 
-        document.getElementById(
+        // 2. Reset counter
+        document.getElementById("cart-count").innerHTML = 0;
 
-            "cart-count"
+        // 3. Clear cart UI
+        const container = document.getElementById("cart-items");
 
-        ).innerHTML = 0;
+        container.innerHTML = `
+            <div class="text-center text-gray-500 py-10">
+                Your cart is empty
+            </div>
+        `;
 
     }
-
 }
 
 async function apiForgot() {
