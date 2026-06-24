@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,16 +9,18 @@
 </head>
 
 <body class="bg-gray-50 text-gray-900 font-sans">
-<script src="script.js"></script>
+    <script src="script.js"></script>
     <nav id="navbar" class="hidden bg-white p-4 shadow-sm justify-between items-center sticky top-0 z-50">
         <h1 class="text-xl font-bold cursor-pointer" onclick="showPage('items')">MINI-STORE</h1>
         <div class="space-x-4">
             <button onclick="showPage('items')" class="hover:text-blue-600">Catalog</button>
-            <button onclick="showPage('profile')" class="hover:text-blue-600">Profile</button>
+            <button onclick="openProfile()" class="hover:text-blue-600">
+                Profile
+            </button>
             <button onclick="apiLogout()" class="text-red-600">Logout</button>
-        <button onclick="showCart()" class="hover:text-blue-600">
-    Cart (<span id="cart-count">0</span>)
-</button>
+            <button onclick="showCart()" class="hover:text-blue-600">
+                Cart (<span id="cart-count">0</span>)
+            </button>
         </div>
     </nav>
 
@@ -28,7 +31,8 @@
             <input id="login-pass" type="password" placeholder="Password" class="w-full p-2 border mb-4 rounded">
             <button onclick="apiLogin()" class="w-full bg-blue-600 text-white p-2 rounded">Login</button>
             <p class="mt-2 text-sm text-blue-600 cursor-pointer" onclick="showPage('forgot')">Forgot Password?</p>
-            <p class="mt-4">Don't have an account? <span onclick="showPage('signup')" class="text-blue-600 cursor-pointer font-bold">Signup</span></p>
+            <p class="mt-4">Don't have an account? <span onclick="showPage('signup')"
+                    class="text-blue-600 cursor-pointer font-bold">Signup</span></p>
         </div>
 
         <div id="page-signup" class="page hidden">
@@ -68,38 +72,31 @@
             <h2 class="text-2xl font-bold mb-4">Profile</h2>
             <div id="profile-data" class="bg-white p-4 shadow rounded mb-6"></div>
 
-<button
-onclick="loadProfile()"
-class="bg-blue-600 text-white px-4 py-2 rounded mb-6">
-Refresh Profile
-</button>
+
             <h3 class="text-xl font-bold mb-4">Invoices</h3>
             <div id="invoices-list" class="space-y-2"></div>
         </div>
 
         <div id="page-checkout" class="page hidden">
 
-    <h2 class="text-2xl font-bold mb-4">
-        Checkout
-    </h2>
+            <h2 class="text-2xl font-bold mb-4">
+                Checkout
+            </h2>
 
-    <div id="cart-items" class="space-y-3 mb-5">
+            <div id="cart-items" class="space-y-3 mb-5">
 
-    </div>
+            </div>
 
-    <button
-        onclick="checkout()"
-        class="bg-green-600 text-white p-2 rounded">
+            <button onclick="checkout()" class="bg-green-600 text-white p-2 rounded">
 
-        Dummy Payment
+                Dummy Payment
 
-    </button>
+            </button>
 
-</div>
+        </div>
     </main>
-    <div
-    id="message"
-    class="fixed bottom-5 right-5 bg-green-600 text-white px-4 py-2 rounded hidden">
-</div>
-    </body>
-    </html>
+    <div id="message" class="fixed bottom-5 right-5 bg-green-600 text-white px-4 py-2 rounded hidden">
+    </div>
+</body>
+
+</html>

@@ -16,57 +16,57 @@ function showMessage(message) {
 
         box.classList.add("hidden");
 
-    },3000);
+    }, 3000);
 
 }
 
-function showPage(name){
+function showPage(name) {
 
-    document.querySelectorAll(".page").forEach(page=>{
+    document.querySelectorAll(".page").forEach(page => {
 
         page.classList.add("hidden");
 
     });
 
     document
-    .getElementById("page-"+name)
-    .classList.remove("hidden");
+        .getElementById("page-" + name)
+        .classList.remove("hidden");
 
 }
 
-async function apiSignup(){
+async function apiSignup() {
 
     const response = await fetch(
 
-        API+"/signup",
+        API + "/signup",
 
         {
 
-            method:"POST",
+            method: "POST",
 
-            headers:{
+            headers: {
 
-                "Content-Type":"application/json"
+                "Content-Type": "application/json"
 
             },
 
-            body:JSON.stringify({
+            body: JSON.stringify({
 
                 username:
 
-                document.getElementById("signup-user").value,
+                    document.getElementById("signup-user").value,
 
                 email:
 
-                document.getElementById("signup-email").value,
+                    document.getElementById("signup-email").value,
 
                 password:
 
-                document.getElementById("signup-pass").value,
+                    document.getElementById("signup-pass").value,
 
                 phone_number:
 
-                document.getElementById("signup-phone").value
+                    document.getElementById("signup-phone").value
 
             })
 
@@ -76,15 +76,15 @@ async function apiSignup(){
 
     const data = await response.json();
 
-    if(data.success){
+    if (data.success) {
 
-        verifyEmail=document.getElementById("signup-email").value;
+        verifyEmail = document.getElementById("signup-email").value;
 
         showMessage(
 
             "Verification Code : "
 
-            +data.verification_code
+            + data.verification_code
 
         );
 
@@ -92,7 +92,7 @@ async function apiSignup(){
 
     }
 
-    else{
+    else {
 
         showMessage(data.message);
 
@@ -100,29 +100,29 @@ async function apiSignup(){
 
 }
 
-async function apiVerify(){
+async function apiVerify() {
 
-    const response=await fetch(
+    const response = await fetch(
 
-        API+"/verify-email",
+        API + "/verify-email",
 
         {
 
-            method:"POST",
+            method: "POST",
 
-            headers:{
+            headers: {
 
-                "Content-Type":"application/json"
+                "Content-Type": "application/json"
 
             },
 
-            body:JSON.stringify({
+            body: JSON.stringify({
 
-                email:verifyEmail,
+                email: verifyEmail,
 
                 code:
 
-                document.getElementById("verify-code").value
+                    document.getElementById("verify-code").value
 
             })
 
@@ -130,11 +130,11 @@ async function apiVerify(){
 
     );
 
-    const data=await response.json();
+    const data = await response.json();
 
     showMessage(data.message);
 
-    if(data.success){
+    if (data.success) {
 
         showPage("login");
 
@@ -142,31 +142,31 @@ async function apiVerify(){
 
 }
 
-async function apiLogin(){
+async function apiLogin() {
 
-    const response=await fetch(
+    const response = await fetch(
 
-        API+"/login",
+        API + "/login",
 
         {
 
-            method:"POST",
+            method: "POST",
 
-            headers:{
+            headers: {
 
-                "Content-Type":"application/json"
+                "Content-Type": "application/json"
 
             },
 
-            body:JSON.stringify({
+            body: JSON.stringify({
 
                 email:
 
-                document.getElementById("login-email").value,
+                    document.getElementById("login-email").value,
 
                 password:
 
-                document.getElementById("login-pass").value
+                    document.getElementById("login-pass").value
 
             })
 
@@ -174,20 +174,20 @@ async function apiLogin(){
 
     );
 
-    const data=await response.json();
+    const data = await response.json();
 
-    if(data.success){
+    if (data.success) {
 
-        currentUser=data.user_id;
+        currentUser = data.user_id;
 
         localStorage.setItem(
-    "user_id",
-    data.user_id
-);
+            "user_id",
+            data.user_id
+        );
 
         document
-        .getElementById("navbar")
-        .classList.remove("hidden");
+            .getElementById("navbar")
+            .classList.remove("hidden");
 
         loadItems();
 
@@ -195,7 +195,7 @@ async function apiLogin(){
 
     }
 
-    else{
+    else {
 
         showMessage(data.message);
 
@@ -203,35 +203,35 @@ async function apiLogin(){
 
 }
 
-function apiLogout(){
+function apiLogout() {
 
-    currentUser=null;
+    currentUser = null;
 
-    cart=[];
+    cart = [];
 
     document
-    .getElementById("navbar")
-    .classList.add("hidden");
+        .getElementById("navbar")
+        .classList.add("hidden");
 
     showPage("login");
 
 }
 
-async function loadItems(){
+async function loadItems() {
 
-    const response=await fetch(
+    const response = await fetch(
 
-        API+"/items"
+        API + "/items"
 
     );
 
-    const data=await response.json();
+    const data = await response.json();
 
-    let html="";
+    let html = "";
 
-    data.data.forEach(item=>{
+    data.data.forEach(item => {
 
-        html+=`
+        html += `
 
         <div class="bg-white shadow rounded p-3">
 
@@ -269,27 +269,27 @@ async function loadItems(){
 
     });
 
-    document.getElementById("items-grid").innerHTML=html;
+    document.getElementById("items-grid").innerHTML = html;
 
 }
 
-async function loadItem(id){
+async function loadItem(id) {
 
     showPage("detail");
 
-    const itemResponse=
+    const itemResponse =
 
-    await fetch(API+"/items/"+id);
+        await fetch(API + "/items/" + id);
 
-    const item=
+    const item =
 
-    await itemResponse.json();
+        await itemResponse.json();
 
     document.getElementById(
 
         "detail-content"
 
-    ).innerHTML=`
+    ).innerHTML = `
 
     <img
 
@@ -331,63 +331,71 @@ async function loadItem(id){
 
 }
 
-async function loadRecommendations(id){
+async function loadRecommendations(id) {
 
-    const response=
+    const response =
 
-    await fetch(
+        await fetch(
 
-        API+"/recommendations/"+id
+            API + "/recommendations/" + id
 
-    );
+        );
 
-    const data=
+    const data =
 
-    await response.json();
+        await response.json();
 
-    let html="";
+    let html = "";
 
-    data.recommendations.forEach(item=>{
+    data.recommendations.forEach(item => {
 
-        html+=`
+        html += `
 
-        <div class="min-w-[150px] bg-white p-2 rounded shadow">
+<div class="min-w-[220px] bg-white shadow rounded p-3">
 
-            <img
+    <img
+    src="${item.image_url}"
+    class="w-full h-32 object-cover rounded">
 
-            src="${item.image_url}"
+    <h3 class="font-bold mt-2">
+        ${item.item_name}
+    </h3>
 
-            class="h-24 w-full object-cover">
+    <p>
+        RM ${item.item_price}
+    </p>
 
-            <p>
+    <p class="text-xs text-green-600 mb-2">
+        Match ${(item.score * 100).toFixed(0)}%
+    </p>
 
-            ${item.item_name}
+    <button
+        onclick="loadItem(${item.item_id})"
+        class="bg-blue-600 text-white w-full p-2 rounded">
 
-            </p>
+        View Item
 
-            <p>
+    </button>
 
-            RM ${item.item_price}
+</div>
 
-            </p>
-
-            <small>
-
-            AI ${(item.score*100).toFixed(0)}%
-
-            </small>
-
-        </div>
-
-        `;
+`;
 
     });
 
-    document.getElementById("rec-grid").innerHTML=html;
+    document.getElementById("rec-grid").innerHTML = html;
 
 }
 
-function addCart(id){
+async function openProfile() {
+
+    showPage("profile");
+
+    await loadProfile();
+
+}
+
+function addCart(id) {
 
     cart.push(id);
 
@@ -395,67 +403,67 @@ function addCart(id){
 
         "cart-count"
 
-    ).innerHTML=cart.length;
+    ).innerHTML = cart.length;
 
     showMessage("Added to cart");
 
 }
 
-async function checkout(){
+async function checkout() {
 
-    const response=
+    const response =
 
-    await fetch(
+        await fetch(
 
-        API+"/checkout",
+            API + "/checkout",
 
-        {
+            {
 
-            method:"POST",
+                method: "POST",
 
-            headers:{
+                headers: {
 
-                "Content-Type":"application/json"
+                    "Content-Type": "application/json"
 
-            },
+                },
 
-            body:JSON.stringify({
+                body: JSON.stringify({
 
-                user_id:currentUser,
+                    user_id: currentUser,
 
-                items:cart,
+                    items: cart,
 
-                payment:"Dummy Payment"
+                    payment: "Dummy Payment"
 
-            })
+                })
 
-        }
+            }
 
-    );
+        );
 
-    const data=
+    const data =
 
-    await response.json();
+        await response.json();
 
-    if(data.success){
+    if (data.success) {
 
         showMessage(
 
             "Invoice #"
 
-            +data.invoice.invoice_id+
+            + data.invoice.invoice_id +
 
             " Created"
 
         );
 
-        cart=[];
+        cart = [];
 
         document.getElementById(
 
             "cart-count"
 
-        ).innerHTML=0;
+        ).innerHTML = 0;
 
     }
 
@@ -468,7 +476,7 @@ async function apiForgot() {
         {
             method: "POST",
             headers: {
-                "Content-Type":"application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 email: document.getElementById(
@@ -480,7 +488,7 @@ async function apiForgot() {
 
     const data = await response.json();
 
-    if(data.success){
+    if (data.success) {
 
         showMessage(
             "Reset Code: " +
@@ -491,17 +499,17 @@ async function apiForgot() {
     }
 }
 
-async function loadProfile(){
+async function loadProfile() {
 
     const response =
-    await fetch(
-        API + "/profile/" + currentUser
-    );
+        await fetch(
+            API + "/profile/" + currentUser
+        );
 
     const data =
-    await response.json();
+        await response.json();
 
-    if(!data.success){
+    if (!data.success) {
         return;
     }
 
@@ -536,19 +544,19 @@ async function loadProfile(){
     loadInvoices();
 }
 
-async function loadInvoices(){
+async function loadInvoices() {
 
     const response =
-    await fetch(
-        API + "/invoices/" + currentUser
-    );
+        await fetch(
+            API + "/invoices/" + currentUser
+        );
 
     const data =
-    await response.json();
+        await response.json();
 
     let html = "";
 
-    data.data.forEach(invoice=>{
+    data.data.forEach(invoice => {
 
         html += `
 <div class="bg-white p-3 rounded shadow">
@@ -578,45 +586,50 @@ async function loadInvoices(){
     ).innerHTML = html;
 }
 
-async function showCart(){
+async function showCart() {
 
     showPage("checkout");
 
     const container =
-    document.getElementById(
-        "cart-items"
-    );
+        document.getElementById("cart-items");
 
     container.innerHTML = "";
 
     let total = 0;
 
-    for(const itemId of cart){
+    for (const itemId of cart) {
 
         const response =
-        await fetch(
-            API + "/items/" + itemId
-        );
+            await fetch(API + "/items/" + itemId);
 
         const data =
-        await response.json();
+            await response.json();
 
-        const item =
-        data.data;
+        const item = data.data;
 
-        total += item.item_price;
+        total += Number(item.item_price);
 
         container.innerHTML += `
 
-        <div class="bg-white p-3 rounded shadow">
+        <div class="bg-white p-3 rounded shadow flex justify-between">
 
-            <p class="font-bold">
-                ${item.item_name}
-            </p>
+            <div>
 
-            <p>
+                <p class="font-bold">
+                    ${item.item_name}
+                </p>
+
+                <p class="text-sm text-gray-500">
+                    ${item.item_description}
+                </p>
+
+            </div>
+
+            <div class="font-bold">
+
                 RM ${item.item_price}
-            </p>
+
+            </div>
 
         </div>
 
@@ -625,36 +638,39 @@ async function showCart(){
 
     container.innerHTML += `
 
-    <div class="font-bold text-xl mt-4">
+    <div class="bg-green-50 border rounded p-4 mt-4">
 
-        Total :
-        RM ${total.toFixed(2)}
+        <h3 class="text-xl font-bold">
+
+            Total: RM ${total.toFixed(2)}
+
+        </h3>
 
     </div>
 
     `;
 }
 
-window.onload = function(){
+window.onload = function () {
 
     const user =
-    localStorage.getItem(
-        "user_id"
-    );
+        localStorage.getItem(
+            "user_id"
+        );
 
-    if(user){
+    if (user) {
 
         currentUser = user;
 
         document
-        .getElementById("navbar")
-        .classList.remove("hidden");
+            .getElementById("navbar")
+            .classList.remove("hidden");
 
         loadItems();
 
         showPage("items");
     }
-    else{
+    else {
 
         showPage("login");
     }
