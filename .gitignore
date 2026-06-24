@@ -17,6 +17,7 @@ Thumbs.db
 .env.local
 config.local.js
 secrets.js
+config.js
 
 # Crash logs & temporary files
 *.log
